@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12"></div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+      <form [formGroup]="busSearchForm">
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput type="text" formControlName= "search_buses" placeholder="Search For Bus Route" />
+            </mat-form-field>
+        </div>
+
+    </form>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12"></div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <app-search-results></app-search-results>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <app-favorites></app-favorites>
+      </div>
+  </div>
+</div>

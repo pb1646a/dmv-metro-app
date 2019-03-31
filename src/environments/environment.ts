@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://api.wmata.com',
+  metroApiKey: 'bb4b89aa6f974fce9db37009f996a574'
 };
 
 /*

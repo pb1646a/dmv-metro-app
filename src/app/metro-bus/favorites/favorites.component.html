@@ -1,0 +1,19 @@
+<div class="card">
+  <div *ngFor="let stops of ($$favorites|async); let i=index;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-1">
+            <mat-icon (click)="onRemove(i);">delete</mat-icon>
+        </div>
+        <div class="col-lg-6">
+            Stop: {{stops.StopID}} - {{stops.Name}}
+        </div>
+        <div class="col-lg-5">
+          <a (click)="onAddMap(stops);" *ngFor="let route of stops.Routes">{{route}} </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<app-stop-table></app-stop-table>
