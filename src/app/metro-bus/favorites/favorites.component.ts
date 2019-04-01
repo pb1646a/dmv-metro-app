@@ -28,7 +28,6 @@ export class FavoritesComponent implements OnInit {
     }, 60000);
   }
   updateStopETA() {
-    console.log(this.favorites);
     this._routes.getEstimatedTime(this.favorites);
   }
 

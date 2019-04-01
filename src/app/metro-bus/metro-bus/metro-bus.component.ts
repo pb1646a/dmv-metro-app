@@ -41,7 +41,8 @@ export class MetroBusComponent implements OnInit {
       this._routes.$$filterBus.next(routes);
     });
     this.favorites=JSON.parse(localStorage.getItem('favorites'));
-    this._routes.$$favorites.next([...this.favorites]);
+    this.favorites? this._routes.$$favorites.next([...this.favorites]):null;
+
     this.controls("search_buses")
       .valueChanges.pipe(
         startWith(""),
