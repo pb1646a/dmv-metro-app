@@ -51,6 +51,8 @@ export class MetroBusComponent implements OnInit {
       .subscribe(term => {
         this._routes.$$filterBus.next(this.filter(term));
       });
+
+
   }
 
   private filter(term) {

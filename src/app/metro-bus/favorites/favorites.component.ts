@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { BusesSearchService } from "../services/buses-search.service";
-import { of} from "rxjs";
+import { of } from "rxjs";
 
 @Component({
   selector: "app-favorites",
@@ -22,16 +22,24 @@ export class FavoritesComponent implements OnInit {
       this.$$favorites = of(filteredArray);
       this._routes.getEstimatedTime(filteredArray);
     });
+
+    setTimeout(() => {
+    return this.updateStopETA();
+    }, 60000);
   }
-  onRemove(i){
-    this.favorites.splice(i,1);
-    localStorage.setItem('favorites', JSON.stringify([...this.favorites]));
-    this._routes.$$favorites.next([...this.favorites]);
-    this.favorites.length<=0?this._routes.$$stopETA.next(['']):null;
+  updateStopETA() {
+    console.log(this.favorites);
     this._routes.getEstimatedTime(this.favorites);
   }
-onAddMap(route){
-  console.log(route);
 
-}
+  onRemove(i) {
+    this.favorites.splice(i, 1);
+    localStorage.setItem("favorites", JSON.stringify([...this.favorites]));
+    this._routes.$$favorites.next([...this.favorites]);
+    this.favorites.length <= 0 ? this._routes.$$stopETA.next([""]) : null;
+    this._routes.getEstimatedTime(this.favorites);
+  }
+  onAddMap(route) {
+    console.log(route);
+  }
 }
