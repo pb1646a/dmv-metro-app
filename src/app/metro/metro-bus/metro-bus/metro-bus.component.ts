@@ -1,8 +1,9 @@
-import { FormsService } from "./../../common-components/services/forms/forms.service";
+import { FormsService } from './../../../common-components/services/forms/forms.service';
+
 import { Routes } from "./models/routes.model";
 import { BusesSearchService } from "./../services/buses-search.service";
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import {  FormGroup } from "@angular/forms";
 import { startWith, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { of, Observable, BehaviorSubject } from "rxjs";
 
@@ -13,7 +14,6 @@ import { of, Observable, BehaviorSubject } from "rxjs";
 })
 export class MetroBusComponent implements OnInit {
   routes: Routes[] = [];
-  //$$routes = new BehaviorSubject(this.routes);
   busSearchForm: FormGroup;
   favorites = [];
   fields = [

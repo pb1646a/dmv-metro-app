@@ -22,6 +22,8 @@ export class FavoritesComponent implements OnInit {
       this.$$favorites = of(filteredArray);
       this._routes.getEstimatedTime(filteredArray);
     });
+    this.favorites=JSON.parse(localStorage.getItem('favorites'));
+    this.favorites? this._routes.$$favorites.next([...this.favorites]):null;
 
     setTimeout(() => {
     return this.updateStopETA();
