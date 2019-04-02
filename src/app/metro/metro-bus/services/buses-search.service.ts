@@ -59,8 +59,6 @@ $$stopETA = new BehaviorSubject(this.stopETA);
   }
   getEstimatedTime(array){
     let stopMap = array.map(stop=>{
-      console.log(Object.keys(stop));
-      console.log(stop.StopID);
       return this.http.get(`${this.apiUrl}/NextBusService.svc/json/jPredictions?StopID=${stop.StopID}`);
 
     });
