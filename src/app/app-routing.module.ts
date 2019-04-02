@@ -6,7 +6,7 @@ import { DashboardComponent } from './metro/dashboard/dashboard.component';
 
 const routes: Routes = [{
   path:'', redirectTo:'/metro', pathMatch:'full'},
-{path:'metro', component:DashboardComponent }
+{path:'metro', component:DashboardComponent },
 {path:'metro/metrobus', component: MetroBusComponent}
 ];
 
