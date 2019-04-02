@@ -8,3 +8,9 @@ app.get('/', function(req,res) {
 
 res.sendFile(path.join(__dirname+'/dist/metro-bus-app/index.html'));
 });
+app.get('/metro', (req,res)=>{
+  res.redirect('/#metro');
+})
+app.get('/metro/metrobus',(req,res)=>{
+  res.redirect('/#metro/#metrobus')
+})
