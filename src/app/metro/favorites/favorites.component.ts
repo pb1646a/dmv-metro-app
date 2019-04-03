@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { BusesSearchService } from "../services/buses-search.service";
+import { BusesSearchService } from "../metro-bus/services/buses-search.service";
 import { of } from "rxjs";
 
 @Component({
