@@ -22,34 +22,36 @@
                 <a *ngSwitchCase="true"><i class="material-icons">list</i></a>
               </div>
               <div *ngIf="mapView.rowIndex==i && mapView.toggleVal">
-               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <app-map-view [mapData]="currentRoute"></app-map-view>
-               </div>
-
               </div>
+          </div>
             <mat-tab-group *ngIf="!mapView.toggleVal" #busResultsTabs (selectedTabChange)=onTabChanged($event)>
               <mat-tab label="{{($$routeDetails|async)?.Direction0.DirectionText}} TO {{($$routeDetails|async)?.Direction0.TripHeadsign}}">
-                <div >
-                    <ul *ngFor="let stops of (($$routeDetails|async)?.Direction0.Stops)|slice:lowerLimit:higherLimit;" [style.display]="'flex'">
+                <div>
+                    <ul *ngFor="let stops of (($$routeDetails|async)?.Direction0.Stops)|slice:resultsLowerLimit:resultsHigherLimit;">
                       <button mat-icon-button (click)="onAddFav(stops)"><mat-icon>favorite </mat-icon></button>
                       <li>Stop: {{stops.StopID}} - {{stops.Name}}</li>
                     </ul>
                 </div>
-                <mat-paginator [pageSize]="resultsPageSize" [pageIndex]="resultsPageIndex" [pageSizeOptions]="pageSizeOptions" [length]="($$routeDetails|async)?.Direction0.Stops.length" (page)="resultsChange($event);"></mat-paginator>
+
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <mat-paginator [pageSize]="resultsPageSize" [pageIndex]="resultsPageIndex" [pageSizeOptions]="pageSizeOptions" [length]="($$routeDetails|async)?.Direction0.Stops.length" (page)="resultsChange($event);"></mat-paginator>
+
+                    </div>
+                  </div>
               </mat-tab>
                 <mat-tab label="{{($$routeDetails|async)?.Direction1.DirectionText}} TO {{($$routeDetails|async)?.Direction1.TripHeadsign}}">
                 <div>
-                    <ul  *ngFor="let stops of (($$routeDetails|async)?.Direction1.Stops)|slice:lowerLimit:higherLimit;" [style.display]="'flex'">
+                    <ul  *ngFor="let stops of (($$routeDetails|async)?.Direction1.Stops)|slice:resultsLowerLimit:resultsHigherLimit;" [style.display]="'flex'">
                       <button mat-icon-button (click)="onAddFav(stops)"><mat-icon>favorite </mat-icon></button>
                       <li>Stop: {{stops.StopID}} - {{stops.Name}}</li>
                     </ul>
                 </div>
                 <mat-paginator [pageSize]="resultsPageSize" [pageIndex]="resultsPageIndex" [pageSizeOptions]="pageSizeOptions" [length]="($$routeDetails|async)?.Direction1.Stops.length" (page)="resultsChange($event);"></mat-paginator>
               </mat-tab>
-
-
           </mat-tab-group>
-        </div>
+
       </div>
 
 

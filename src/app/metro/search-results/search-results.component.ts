@@ -47,6 +47,8 @@ resultsHigherLimit = this.resultsPageSize * (this.resultsPageIndex + 1);
     this.mapView.toggleVal = false;
     this.resultsPageIndex =0;
     this.resultsLowerLimit=0;
+    this.resultsPageSize=10;
+    this.resultsHigherLimit = this.resultsPageSize * (this.resultsPageIndex + 1);
   }
   onAddFav(stop) {
     this.favorites.push(stop);
@@ -71,6 +73,7 @@ resultsHigherLimit = this.resultsPageSize * (this.resultsPageIndex + 1);
     this.higherLimit = event.pageSize * (event.pageIndex + 1);
   }
   resultsChange(event){
+    console.log(event);
     this.resultsPageSize = event.pageSize;
     this.resultsLowerLimit = event.pageSize * event.pageIndex;
     this.resultsHigherLimit = event.pageSize * (event.pageIndex + 1);
