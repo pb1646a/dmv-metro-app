@@ -13,11 +13,7 @@ import {
 })
 export class SearchResultsComponent implements OnInit {
   favorites = [];
-
   constructor(private _routes: BusesSearchService) {}
-  @ViewChild("busResultsTabs") tabGroup;
-  @ViewChild("mapView") mapsView;
-
   mapView = { rowIndex: 0, toggleVal: false };
   currentRoute;
   $$routes;

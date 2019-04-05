@@ -1,13 +1,16 @@
+<div class="card">
+    <div class="results-container">
 
-<div class="results-container">
+        <div *ngFor="let eta of ($$stopETA|async)">
+          {{eta.StopName}}
+          <ul *ngFor="let prediction of eta.Predictions">
 
-  <div *ngFor="let eta of ($$stopETA|async)">
-    {{eta.StopName}}
-    <ul *ngFor="let prediction of eta.Predictions">
+            <li>Route: {{prediction.RouteID}} -  {{prediction.DirectionText}}</li>
+            <li>{{prediction.Minutes}} mins</li>
+          </ul>
+        </div>
 
-      <li>Route: {{prediction.RouteID}} -  {{prediction.DirectionText}}</li>
-      <li>{{prediction.Minutes}} mins</li>
-    </ul>
-  </div>
+      </div>
 
 </div>
+

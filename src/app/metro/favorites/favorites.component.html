@@ -6,10 +6,8 @@
                   <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                      <button (click)="onRemove(i);" mat-icon-button>
                        <mat-icon >delete</mat-icon>
-
                     </button>
                     <mat-slide-toggle [checked]="currentSelection[i]?.checked" (change)="onChange(i,stops)">
-                      {{currentSelection[i]?.checked}}
                     </mat-slide-toggle>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
