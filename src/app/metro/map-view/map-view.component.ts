@@ -1,5 +1,5 @@
 import { MapService } from "./../services/map-service.service";
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import * as mapGl from "mapbox-gl";
 import { BusesSearchService } from "../metro-bus/services/buses-search.service";
 
@@ -8,7 +8,7 @@ import { BusesSearchService } from "../metro-bus/services/buses-search.service";
   templateUrl: "./map-view.component.html",
   styleUrls: ["./map-view.component.css"]
 })
-export class MapViewComponent implements OnInit {
+export class MapViewComponent implements OnInit, OnDestroy {
   metroBusMap;
   shapeLine;
   stopMarkers;
@@ -46,5 +46,9 @@ export class MapViewComponent implements OnInit {
         });
       });
     }
+  }
+
+  ngOnDestroy(){
+    this.mapService.destroyMap()
   }
 }

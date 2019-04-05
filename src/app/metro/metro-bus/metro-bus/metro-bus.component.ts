@@ -50,6 +50,7 @@ export class MetroBusComponent implements OnInit {
         distinctUntilChanged()
       )
       .subscribe(term => {
+
         this._routes.$$filterBus.next(this.filter(term));
       });
 

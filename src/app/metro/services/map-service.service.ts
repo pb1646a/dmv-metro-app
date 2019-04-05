@@ -137,4 +137,10 @@ export class MapService {
   setShape(shapeCoords) {
     this.metroMap.addLayer(shapeCoords);
   }
+
+  destroyMap(){
+    this.metroMap.remove();
+
+  }
+
 }

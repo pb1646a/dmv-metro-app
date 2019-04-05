@@ -32,6 +32,8 @@ interface Shape {
   Lon: number;
   SeqNum: number;
 }
+
+
 export interface RootPosObject {
   BusPositions: BusPosition[];
 }
@@ -50,3 +52,10 @@ interface BusPosition {
   TripStartTime: string;
   VehicleID: string;
 }
+export interface Marker {
+  stopID: string;
+  routeID: string,
+  busPositions?: RootPosObject[]
+
+}
+

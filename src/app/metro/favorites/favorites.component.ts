@@ -1,19 +1,18 @@
-import { Component, OnInit } from "@angular/core";
+import { Marker } from './../metro-bus/metro-bus/models/routes.model';
+import { Component, OnInit,OnDestroy } from "@angular/core";
 import { BusesSearchService } from "../metro-bus/services/buses-search.service";
 import { of } from "rxjs";
-import { SelectionModel } from "@angular/cdk/collections";
 
 @Component({
   selector: "app-favorites",
   templateUrl: "./favorites.component.html",
   styleUrls: ["./favorites.component.css"]
 })
-export class FavoritesComponent implements OnInit {
+export class FavoritesComponent implements OnInit, OnDestroy {
   favorites = [];
   $$favorites;
-  mapSelection = new SelectionModel(true, []);
   $$busPositions;
-  busPositions=[];
+  busPositions: Marker[]=[];
   currentSelection:[{stop:string;routes:[],checked:boolean}] = [{stop:'',routes:[],checked:false}];
 
   constructor(private _routes: BusesSearchService) {}
@@ -48,9 +47,6 @@ export class FavoritesComponent implements OnInit {
     this.favorites.length <= 0 ? this._routes.$$stopETA.next([""]) : null;
     this._routes.getEstimatedTime(this.favorites);
   }
-  onAddMap(route) {
-    console.log(route);
-  }
   onChange(i, stopsArr) {
       /// on toggle set info
 
@@ -77,6 +73,20 @@ export class FavoritesComponent implements OnInit {
 
 
 
+
+  }
+  unCheckAll(){
+   this.currentSelection.forEach(el=>{
+    el.checked===true? el.checked = false:null;
+    this.busPositions=[];
+    this._routes.busPositions=this.busPositions;
+    this._routes.$$busPositions.next([...this.busPositions]);
+
+
+   })
+  }
+  ngOnDestroy(){
+    return this.unCheckAll();
 
   }
 }

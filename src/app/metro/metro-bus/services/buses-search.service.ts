@@ -1,4 +1,9 @@
-import { Routes, RouteDetails, RootPosObject } from "./../metro-bus/models/routes.model";
+import {
+  Routes,
+  RouteDetails,
+  RootPosObject,
+  Marker
+} from "./../metro-bus/models/routes.model";
 
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
@@ -20,8 +25,8 @@ export class BusesSearchService {
   $$favorites = new BehaviorSubject(this.favorites);
   stopETA = [];
   $$stopETA = new BehaviorSubject(this.stopETA);
-  busPositions:any[]=[];
-  $$busPositions = new BehaviorSubject(this.busPositions);
+  busPositions: Marker[] = [];
+  $$busPositions = new BehaviorSubject<Marker[]>(this.busPositions);
   $$mapSelectionChange = new BehaviorSubject([]);
 
   constructor(private http: HttpClient) {}
@@ -66,7 +71,7 @@ export class BusesSearchService {
     this.$$favorites.next([list]);
   }
   getEstimatedTime(array) {
-    let stopMap = array.map(stop => {
+    const stopMap = array.map(stop => {
       return this.http.get(
         `${this.apiUrl}/NextBusService.svc/json/jPredictions?StopID=${
           stop.StopID
@@ -80,9 +85,11 @@ export class BusesSearchService {
   }
 
   getBusPositions(array) {
-    let posMap = array.routes.map(route => {
+    const posMap: Marker[] = array.routes.map(route => {
       return this.http
-        .get(`${this.apiUrl}/Bus.svc/json/jBusPositions?RouteID=${route}`)
+        .get<RootPosObject>(
+          `${this.apiUrl}/Bus.svc/json/jBusPositions?RouteID=${route}`
+        )
         .pipe(
           map(response => {
             return {
@@ -93,16 +100,20 @@ export class BusesSearchService {
           })
         );
     });
-    return forkJoin(posMap).subscribe((response) => {
-      this.busPositions.push(response);
-      this.busPositions = this.busPositions.flat();
+    return forkJoin(posMap).subscribe(response => {
+      response.map(res => {
+        this.busPositions.push(res);
+      });
+      //this.busPositions.push(response);
+      this.busPositions = [].concat.apply([],this.busPositions);
       this.$$busPositions.next([...this.busPositions]);
+      return response;
     });
   }
 
-return$$MapSelectionChange(){
-  return this.$$mapSelectionChange.asObservable();
-}
+  return$$MapSelectionChange() {
+    return this.$$mapSelectionChange.asObservable();
+  }
 
   return$$busPositions() {
     return this.$$busPositions.asObservable();

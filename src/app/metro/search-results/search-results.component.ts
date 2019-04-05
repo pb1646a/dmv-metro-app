@@ -73,7 +73,6 @@ resultsHigherLimit = this.resultsPageSize * (this.resultsPageIndex + 1);
     this.higherLimit = event.pageSize * (event.pageIndex + 1);
   }
   resultsChange(event){
-    console.log(event);
     this.resultsPageSize = event.pageSize;
     this.resultsLowerLimit = event.pageSize * event.pageIndex;
     this.resultsHigherLimit = event.pageSize * (event.pageIndex + 1);
