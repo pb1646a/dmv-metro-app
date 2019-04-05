@@ -1,7 +1,9 @@
+import { LocationService } from './../../common-components/services/location/location.service';
 import { MapService } from "./../services/map-service.service";
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import * as mapGl from "mapbox-gl";
 import { BusesSearchService } from "../metro-bus/services/buses-search.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-map-view",
@@ -15,15 +17,23 @@ export class MapViewComponent implements OnInit, OnDestroy {
   defaultFlyTo;
   $$busPositions;
   busPositions: [];
+  currenPosition;
+  $$currentPosition;
 
   @Input() mapData;
 
   constructor(
     private mapService: MapService,
-    private _route: BusesSearchService
+    private _route: BusesSearchService,
+    private _locationServices: LocationService
   ) {}
 
   ngOnInit() {
+    this.$$currentPosition = this._locationServices.return$$currentPosition();
+    this.$$currentPosition.subscribe(currentPosition=>{
+    this.currenPosition = currentPosition;
+    })
+
     this.mapService.generateMap();
     this.$$busPositions = this._route.return$$busPositions();
     this.$$busPositions.subscribe(positions => {
@@ -31,6 +41,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
       this.stopMarkers = [];
       this.metroBusMap = this.mapService.metroMap;
       this.stopMarkers = this.mapService.getMarkers(this.busPositions);
+      this.defaultFlyTo = this.currenPosition.coords;
+      this.mapService.setMarkers(this.stopMarkers);
+      this.metroBusMap.flyTo({
+        center: { lng: this.defaultFlyTo.lon, lat:this.defaultFlyTo.lat }
+      });
     });
 
     if (this.mapData) {
@@ -38,11 +53,12 @@ export class MapViewComponent implements OnInit, OnDestroy {
       this.shapeLine = this.mapService.getShape(this.mapData);
       this.stopMarkers = this.mapService.getGeneralMarkers(this.mapData);
       this.defaultFlyTo = this.mapData.Direction0.Stops[0];
+      console.log(this.defaultFlyTo)
       this.metroBusMap.on("load", () => {
         this.mapService.setShape(this.shapeLine);
         // this.mapService.setMarkers(this.stopMarkers);
         this.metroBusMap.flyTo({
-          center: { lng: this.defaultFlyTo.Lon, lat: this.defaultFlyTo.Lat }
+          center: { lng: this.defaultFlyTo.Lon, lat:this.defaultFlyTo.Lat }
         });
       });
     }

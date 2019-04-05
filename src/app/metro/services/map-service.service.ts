@@ -65,7 +65,7 @@ export class MapService {
   }
 
   getMarkers(array) {
-    let build = array.map(route => {
+    let markers = array.map(route => {
       return {
         type: "FeatureCollection",
         features: route.busPositions.map(positions => {
@@ -89,16 +89,16 @@ export class MapService {
         })
       };
     });
-    let markers = build.map(markerGroup => {
+
+
+    return markers;
+  }
+  setMarkers(markers) {
+     markers.map(markerGroup => {
       return markerGroup.features.map(marker => {
         return new mapGl.Marker(marker).setLngLat(marker.geometry.coordinates).addTo(this.metroMap);
       });
     });
-
-    return markers;
-  }
-  setMarkers(markersArray) {
-    markersArray.forEach(marker=> marker.remove())
 
   }
 

@@ -1,19 +1,14 @@
 
 <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-      <button mat-button routerLink="">Dashboard</button>
-     <button mat-button  routerLink="/metro/metrobus">MetroBus</button>
-  </mat-toolbar-row>
-
-</mat-toolbar>
-
+      <div [class.bottom-toolbar]="($$deviceType|async)?.matches"class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <mat-toolbar color="primary">
+          <mat-toolbar-row>
+              <button mat-button routerLink="">Dashboard</button>
+            <button mat-button  routerLink="/metro/metrobus">MetroBus</button>
+          </mat-toolbar-row>
+        </mat-toolbar>
       </div>
-
-        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12"></div>
     </div>
   </div>
+
