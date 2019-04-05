@@ -106,55 +106,6 @@ export class MapService {
     this.metroMap.addLayer(shapeCoords);
   }
 
-  getGeneralMarkers(routeDetails) {
-    let routeMarkers;
-    let routeMarkers0 = {
-      type: "FeatureCollection",
-      features: routeDetails.Direction0.Stops.map(shapeCoord => {
-        return {
-          type: "Feature",
-          properties: {
-            message: "",
-            iconSize: [5, 5],
-            className: "dot",
-            "marker-color": "#3bb2d0",
-            "marker-symbol": "circle",
-            "marker-size": "small"
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [shapeCoord.Lon, shapeCoord.Lat]
-          }
-        };
-      })
-    };
-    let routeMarkers1 = {
-      type: "FeatureCollection",
-      features: routeDetails.Direction1.Stops.map(shapeCoord => {
-        return {
-          type: "Feature",
-          properties: {
-            message: "",
-            iconSize: [5, 5],
-            className: "dot",
-            "marker-color": "#3bb2d0",
-            "marker-symbol": "circle",
-            "marker-size": "small"
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [shapeCoord.Lon, shapeCoord.Lat]
-          }
-        };
-      })
-    };
-    return (routeMarkers = [routeMarkers0, routeMarkers1]);
-  }
-
-
-
-
-
   destroyMap() {
     this.metroMap.remove();
   }
