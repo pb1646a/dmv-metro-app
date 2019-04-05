@@ -3,8 +3,8 @@
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <app-favorites></app-favorites>
-      <div class="mapview">
-          <app-map-view *ngIf="($$busPositions|async).length>0"></app-map-view>
+      <div *ngIf="($$busPositions|async).length>0" class="mapview">
+          <app-map-view ></app-map-view>
       </div>
 
     </div>
