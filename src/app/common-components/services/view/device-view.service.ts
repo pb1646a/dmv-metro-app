@@ -16,7 +16,6 @@ export class DeviceViewService {
     this.$$breakPoint.observe([
       Breakpoints[device]
     ]).subscribe(result=>{
-      console.log(result);
       this.deviceType=result;
       this.$$deviceType.next(this.deviceType);
   })

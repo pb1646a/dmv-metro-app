@@ -1,0 +1,11 @@
+div {
+  background-image: url(../map-view/mapbox-icon.png);
+}
+.marker {
+  background-color: black;
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}

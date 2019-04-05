@@ -29,6 +29,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+
     this.$$currentPosition = this._locationServices.return$$currentPosition();
     this.$$currentPosition.subscribe(currentPosition=>{
     this.currenPosition = currentPosition;
@@ -41,11 +42,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
       this.stopMarkers = [];
       this.metroBusMap = this.mapService.metroMap;
       this.stopMarkers = this.mapService.getMarkers(this.busPositions);
-      this.defaultFlyTo = this.currenPosition.coords;
+      this.currenPosition>0?this.defaultFlyTo = this.currenPosition.coords:null;
       this.mapService.setMarkers(this.stopMarkers);
-      this.metroBusMap.flyTo({
+      this.currenPosition.length>0?this.metroBusMap.flyTo({
         center: { lng: this.defaultFlyTo.lon, lat:this.defaultFlyTo.lat }
-      });
+      }):null;
     });
 
     if (this.mapData) {
@@ -53,7 +54,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
       this.shapeLine = this.mapService.getShape(this.mapData);
       this.stopMarkers = this.mapService.getGeneralMarkers(this.mapData);
       this.defaultFlyTo = this.mapData.Direction0.Stops[0];
-      console.log(this.defaultFlyTo)
       this.metroBusMap.on("load", () => {
         this.mapService.setShape(this.shapeLine);
         // this.mapService.setMarkers(this.stopMarkers);

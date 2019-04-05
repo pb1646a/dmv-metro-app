@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class LocationService {
   currentPosition;
-  $$currentPosition = new BehaviorSubject(this.currentPosition)
+  $$currentPosition = new BehaviorSubject(this.currentPosition);
   constructor() { }
 
   getUserCurrentLocation(){

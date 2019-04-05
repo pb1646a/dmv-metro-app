@@ -10,10 +10,12 @@ import { FavoritesComponent } from './favorites/favorites.component';
 import { StopTableComponent } from './metro-bus/stop-table/stop-table.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MapViewComponent } from './map-view/map-view.component';
+import { PopUpComponent } from './pop-up/pop-up.component';
+import { BusPositionElComponent } from './bus-position-el/bus-position-el.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, CommonComponentsModule,MetroRoutingModule],
-  declarations: [MetroBusComponent, SearchResultsComponent, FavoritesComponent, StopTableComponent, DashboardComponent, MapViewComponent],
+  declarations: [MetroBusComponent, SearchResultsComponent, FavoritesComponent, StopTableComponent, DashboardComponent, MapViewComponent, PopUpComponent, BusPositionElComponent],
   exports: [MetroBusComponent, DashboardComponent]
 })
 export class MetroModule {}
