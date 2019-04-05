@@ -32,3 +32,21 @@ interface Shape {
   Lon: number;
   SeqNum: number;
 }
+export interface RootPosObject {
+  BusPositions: BusPosition[];
+}
+
+interface BusPosition {
+  DateTime: string;
+  Deviation: number;
+  DirectionNum: string;
+  DirectionText: string;
+  Lat: number;
+  Lon: number;
+  RouteID: string;
+  TripEndTime: string;
+  TripHeadsign: string;
+  TripID: string;
+  TripStartTime: string;
+  VehicleID: string;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BusesSearchService } from "../metro-bus/services/buses-search.service";
 import { of } from "rxjs";
+import { SelectionModel } from "@angular/cdk/collections";
 
 @Component({
   selector: "app-favorites",
@@ -10,6 +11,10 @@ import { of } from "rxjs";
 export class FavoritesComponent implements OnInit {
   favorites = [];
   $$favorites;
+  mapSelection = new SelectionModel(true, []);
+  $$busPositions;
+  busPositions=[];
+  currentSelection:[{stop:string;routes:[],checked:boolean}] = [{stop:'',routes:[],checked:false}];
 
   constructor(private _routes: BusesSearchService) {}
 
@@ -22,11 +27,14 @@ export class FavoritesComponent implements OnInit {
       this.$$favorites = of(filteredArray);
       this._routes.getEstimatedTime(filteredArray);
     });
-    this.favorites=JSON.parse(localStorage.getItem('favorites'));
-    this.favorites? this._routes.$$favorites.next([...this.favorites]):null;
+    this.favorites = JSON.parse(localStorage.getItem("favorites"));
+    this.favorites ? this._routes.$$favorites.next([...this.favorites]) : null;
+    this._routes.return$$busPositions().subscribe(busPositions => {
+      this.busPositions = busPositions;
+    });
 
     setTimeout(() => {
-    return this.updateStopETA();
+      return this.updateStopETA();
     }, 60000);
   }
   updateStopETA() {
@@ -42,5 +50,33 @@ export class FavoritesComponent implements OnInit {
   }
   onAddMap(route) {
     console.log(route);
+  }
+  onChange(i, stopsArr) {
+      /// on toggle set info
+
+    this.currentSelection[i]= {routes:stopsArr.Routes,
+      stop:stopsArr.StopID,
+      checked:this.currentSelection[i]? !this.currentSelection[i].checked: true
+      }
+    // check to see if toggle was on or off
+
+    if(this.currentSelection[i].checked===true){
+      // send it to get the map details;
+      this._routes.getBusPositions(this.currentSelection[i]);
+    }else{
+      this.busPositions = this.busPositions.filter(arr=>{
+        return !arr.stopID.includes(this.currentSelection[i].stop)
+      })
+      this._routes.busPositions=this.busPositions;
+      this._routes.$$busPositions.next([...this.busPositions]);
+      // purge from the bus locations array and reset map filter;
+      // by sending the updated observable
+
+    }
+
+
+
+
+
   }
 }

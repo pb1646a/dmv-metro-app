@@ -1,27 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as mapGl from "mapbox-gl";
 import { environment } from "src/environments/environment";
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-
 export class MapService {
   metroMap;
-  constructor() { }
-  generateMap(){
+  constructor() {}
+  generateMap() {
     Object.getOwnPropertyDescriptor(mapGl, "accessToken").set(
       environment.mapBoxApiKey
     );
-    this.metroMap =  new mapGl.Map({
+    this.metroMap = new mapGl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/streets-v11",
       center: [-77.03637, 38.89511],
       zoom: 10
     });
   }
-  getMarkers(routeDetails){
+  getGeneralMarkers(routeDetails) {
     let routeMarkers;
     let routeMarkers0 = {
       type: "FeatureCollection",
@@ -43,7 +41,7 @@ export class MapService {
         };
       })
     };
-    let routeMarkers1= {
+    let routeMarkers1 = {
       type: "FeatureCollection",
       features: routeDetails.Direction1.Stops.map(shapeCoord => {
         return {
@@ -63,20 +61,48 @@ export class MapService {
         };
       })
     };
-    return routeMarkers=[routeMarkers0,routeMarkers1];
+    return (routeMarkers = [routeMarkers0, routeMarkers1]);
   }
-  setMarkers(markersArray){
-    markersArray.forEach(markerGroup=>{
-      markerGroup.features.forEach(marker => {
-        new mapGl.Marker(marker)
-          .setLngLat(marker.geometry.coordinates)
-          .addTo(this.metroMap);
+
+  getMarkers(array) {
+    let build = array.map(route => {
+      return {
+        type: "FeatureCollection",
+        features: route.busPositions.map(positions => {
+          return {
+            type: "Feature",
+            properties: {
+              message: `Vehicle ID: ${positions.VehicleID}, LastUpdate: ${
+                positions.DateTime
+              }`,
+              iconSize: [5, 5],
+              className: "dot",
+              "marker-color": "#3bb2d0",
+              "marker-symbol": "bus",
+              "marker-size": "small"
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [positions.Lon, positions.Lat]
+            }
+          };
+        })
+      };
+    });
+    let markers = build.map(markerGroup => {
+      return markerGroup.features.map(marker => {
+        return new mapGl.Marker(marker).setLngLat(marker.geometry.coordinates).addTo(this.metroMap);
       });
-    })
+    });
+
+    return markers;
+  }
+  setMarkers(markersArray) {
+    markersArray.forEach(marker=> marker.remove())
+
   }
 
-
-  getShape(routeData){
+  getShape(routeData) {
     let coords0 = routeData.Direction0.Shape.map(coordinates => {
       return [coordinates.Lon, coordinates.Lat];
     });
@@ -107,8 +133,8 @@ export class MapService {
         "line-width": 4
       }
     };
-
   }
-  setShape(shapeCoords){this.metroMap.addLayer(shapeCoords);}
-
+  setShape(shapeCoords) {
+    this.metroMap.addLayer(shapeCoords);
+  }
 }
