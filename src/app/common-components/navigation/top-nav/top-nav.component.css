@@ -18,3 +18,13 @@ mat-toolbar{
   position: fixed;
   bottom:0%;
 }
+
+
+:host(){
+  display:flex;
+
+  }
+  :host(.top){
+    order: 2;
+  }
+

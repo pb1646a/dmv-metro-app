@@ -20,6 +20,7 @@ export class TopNavComponent implements OnInit {
   this._view.getDeviceView('Handset');
   this.$$deviceType = this._view.return$$deviceType();
 
+
   }
 
 }

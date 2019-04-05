@@ -1,6 +1,5 @@
 <div class="card">
     <div class="results-container">
-
         <div *ngFor="let eta of ($$stopETA|async)">
           {{eta.StopName}}
           <ul *ngFor="let prediction of eta.Predictions">

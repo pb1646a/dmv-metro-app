@@ -1,3 +1,7 @@
 
-<app-top-nav></app-top-nav>
+<app-top-nav *ngIf="($$deviceType|async)?.matches && ($$deviceType|async)?.breakpoints['(max-width: 959.99px) and (orientation: landscape)'] ||!($$deviceType|async)?.matches "></app-top-nav>
+
 <router-outlet></router-outlet>
+<app-top-nav *ngIf="($$deviceType|async)?.matches && !($$deviceType|async)?.breakpoints['(max-width: 959.99px) and (orientation: landscape)']"></app-top-nav>
+
+

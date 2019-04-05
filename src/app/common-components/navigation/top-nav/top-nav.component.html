@@ -1,7 +1,7 @@
 
 <div class="container-fluid">
     <div class="row">
-      <div [class.bottom-toolbar]="($$deviceType|async)?.matches"class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div [class.bottom-toolbar]="($$deviceType|async)?.matches && !($$deviceType|async)?.breakpoints['(max-width: 959.99px) and (orientation: landscape)']"class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <mat-toolbar color="primary">
           <mat-toolbar-row>
               <button mat-button routerLink="">Dashboard</button>
@@ -11,4 +11,3 @@
       </div>
     </div>
   </div>
-
