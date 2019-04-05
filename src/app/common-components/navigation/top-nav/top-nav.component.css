@@ -10,10 +10,7 @@ li {
   display:inline-block;
   margin-right: 1.5rem;
 }
-mat-toolbar{
-  margin-bottom: 1rem !important;
 
-}
 .bottom-toolbar{
   position: fixed;
   bottom:0%;
