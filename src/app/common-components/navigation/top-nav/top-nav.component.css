@@ -17,11 +17,3 @@ li {
 }
 
 
-:host(){
-  display:flex;
-
-  }
-  :host(.top){
-    order: 2;
-  }
-
