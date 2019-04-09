@@ -6,6 +6,3 @@ ul{
   height: 200px;
   width: 100%;
 }
-mat-expansion-panel{
-  overflow: scroll;
-}

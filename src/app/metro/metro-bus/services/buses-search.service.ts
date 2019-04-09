@@ -102,6 +102,7 @@ export class BusesSearchService {
     });
     return forkJoin(posMap).subscribe(response => {
       response.map(res => {
+        console.log(res);
         this.busPositions.push(res);
       });
       //this.busPositions.push(response);

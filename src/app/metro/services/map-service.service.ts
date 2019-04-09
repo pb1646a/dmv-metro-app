@@ -1,8 +1,7 @@
-import { PopUpComponent } from './../pop-up/pop-up.component';
+import { PopUpComponent } from "./../pop-up/pop-up.component";
 import { Injectable } from "@angular/core";
 import * as mapGl from "mapbox-gl";
 import { environment } from "src/environments/environment";
-
 
 @Injectable({
   providedIn: "root"
@@ -22,7 +21,6 @@ export class MapService {
     });
   }
 
-
   getMarkers(array) {
     let markers = array.map(route => {
       return {
@@ -32,6 +30,8 @@ export class MapService {
             type: "Feature",
             properties: {
               vehicleID: positions.VehicleID,
+              tripHeadsign: positions.TripHeadsign,
+              directionText: positions.DirectionText,
               lastUpdate: positions.DateTime,
               stopID: route.stopID,
               routeID: route.routeID,
@@ -58,16 +58,22 @@ export class MapService {
         let el = document.createElement("div");
         el.className = "marker";
         el.textContent = `${marker.properties.vehicleID}`;
+        el.id = marker.properties.stopID;
+
+
         return new mapGl.Marker(el)
           .setLngLat(marker.geometry.coordinates)
-          .setPopup(new mapGl.Popup({offset: 25})
-          .setHTML(`<app-pop-up><div class="heading">
-          ${marker.properties.vehicleID}</div><div class="subtitle">
-          ${marker.properties.lastUpdate}</div></app-pop-up>`))
+          .setPopup(
+            new mapGl.Popup({ offset: 25 })
+              .setHTML(`<app-pop-up><div class="heading">
+          ${marker.properties.vehicleID} ${
+              marker.properties.directionText
+            } TO ${marker.properties.tripHeadsign}</div><div class="subtitle">
+          ${marker.properties.lastUpdate}</div></app-pop-up>`)
+          )
           .addTo(this.metroMap);
       });
     });
-
   }
 
   getShape(routeData) {

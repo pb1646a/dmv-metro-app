@@ -1,7 +1,8 @@
-import { Marker } from './../metro-bus/metro-bus/models/routes.model';
+import { MetroService } from './../services/metro.service';
+import { Marker, CurrentSelection } from './../metro-bus/metro-bus/models/routes.model';
 import { Component, OnInit,OnDestroy } from "@angular/core";
 import { BusesSearchService } from "../metro-bus/services/buses-search.service";
-import { of } from "rxjs";
+import { of, BehaviorSubject, Subscription, Observable } from "rxjs";
 
 @Component({
   selector: "app-favorites",
@@ -13,9 +14,12 @@ export class FavoritesComponent implements OnInit, OnDestroy {
   $$favorites;
   $$busPositions;
   busPositions: Marker[]=[];
-  currentSelection:[{stop:string;routes:[],checked:boolean}] = [{stop:'',routes:[],checked:false}];
+  currentSelection:CurrentSelection[]=[{stop:'',routes:[],checked:false}];
+  selected: CurrentSelection;
+  $$currentSelection: Observable<CurrentSelection>;
+  $currentSelection: Subscription;
 
-  constructor(private _routes: BusesSearchService) {}
+  constructor(private _routes: BusesSearchService, private _metro: MetroService) {}
 
   ngOnInit() {
     this._routes.return$$favorites().subscribe(faves => {
@@ -31,6 +35,7 @@ export class FavoritesComponent implements OnInit, OnDestroy {
     this._routes.return$$busPositions().subscribe(busPositions => {
       this.busPositions = busPositions;
     });
+
 
     setTimeout(() => {
       return this.updateStopETA();
@@ -54,11 +59,13 @@ export class FavoritesComponent implements OnInit, OnDestroy {
       stop:stopsArr.StopID,
       checked:this.currentSelection[i]? !this.currentSelection[i].checked: true
       }
+      this.selected = this.currentSelection[i];
     // check to see if toggle was on or off
 
     if(this.currentSelection[i].checked===true){
       // send it to get the map details;
       this._routes.getBusPositions(this.currentSelection[i]);
+      this._metro.$$currentSelection.next(this.selected);
     }else{
       this.busPositions = this.busPositions.filter(arr=>{
         return !arr.stopID.includes(this.currentSelection[i].stop)

@@ -3,7 +3,12 @@ export interface Routes {
   Name: string;
   LineDescription: string;
 }
+export interface CurrentSelection{
+  stop: string;
+  routes: any[],
+  checked: boolean
 
+}
 export interface RouteDetails {
   RouteID: string;
   Name: string;

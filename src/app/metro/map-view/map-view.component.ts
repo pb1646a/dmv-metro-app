@@ -1,9 +1,11 @@
+import { MetroService } from './../services/metro.service';
+import { CurrentSelection, Marker } from './../metro-bus/metro-bus/models/routes.model';
 import { LocationService } from "./../../common-components/services/location/location.service";
 import { MapService } from "./../services/map-service.service";
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import * as mapGl from "mapbox-gl";
 import { BusesSearchService } from "../metro-bus/services/buses-search.service";
-import { Subscription } from "rxjs";
+import { Subscription, Observable ,of} from "rxjs";
 
 @Component({
   selector: "app-map-view",
@@ -16,16 +18,20 @@ export class MapViewComponent implements OnInit, OnDestroy {
   stopMarkers;
   defaultFlyTo;
   $$busPositions;
-  busPositions: [];
+  busPositions:Marker[];
   currenPosition;
   $$currentPosition;
+  $$currentSelection:Observable<CurrentSelection>;
+  $currentSelection: Subscription;
+  selected: CurrentSelection;
 
   @Input() mapData;
 
   constructor(
     private mapService: MapService,
     private _route: BusesSearchService,
-    private _locationServices: LocationService
+    private _locationServices: LocationService,
+    private _metro: MetroService
   ) {}
 
   ngOnInit() {
@@ -38,7 +44,17 @@ export class MapViewComponent implements OnInit, OnDestroy {
     this.$$busPositions = this._route.return$$busPositions();
     this.$$busPositions.subscribe(positions => {
       this.busPositions = positions;
-      this.stopMarkers = [];
+      this.$currentSelection = this._metro.return$$currentSelection().subscribe(current=>{
+        console.log(current);
+        this.selected = current;
+        this.$$currentSelection = of(current)});
+        console.log(this.selected);
+      if(this.selected.checked===true){
+        let position = this.busPositions.filter(position=>{
+          position.stopID.includes(this.selected.stop);
+        })
+        this.stopMarkers = this.mapService.getMarkers(position);
+      }
       this.metroBusMap = this.mapService.metroMap;
       this.stopMarkers = this.mapService.getMarkers(this.busPositions);
       this.currenPosition > 0
@@ -51,6 +67,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
           })
         : null;
     });
+
 
     if (this.mapData) {
       this.metroBusMap = this.mapService.metroMap;
