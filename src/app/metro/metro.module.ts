@@ -16,6 +16,7 @@ import { BusPositionElComponent } from './bus-position-el/bus-position-el.compon
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, CommonComponentsModule,MetroRoutingModule],
   declarations: [MetroBusComponent, SearchResultsComponent, FavoritesComponent, StopTableComponent, DashboardComponent, MapViewComponent, PopUpComponent, BusPositionElComponent],
-  exports: [MetroBusComponent, DashboardComponent]
+  exports: [MetroBusComponent, DashboardComponent],
+  entryComponents:[StopTableComponent]
 })
 export class MetroModule {}

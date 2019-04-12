@@ -59,8 +59,14 @@ interface BusPosition {
 }
 export interface Marker {
   stopID: string;
-  routeID: string,
+  routeID: string;
   busPositions?: RootPosObject[]
+
+}
+export interface BusPredictions {
+  StopName: string;
+  StopID: string;
+  Predictions?: []
 
 }
 

@@ -3,7 +3,7 @@ import { BusesSearchService } from "../metro-bus/services/buses-search.service";
 import {
   Component,
   OnInit,
-  ViewChild,
+
 } from "@angular/core";
 
 @Component({

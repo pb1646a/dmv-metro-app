@@ -1,26 +1,26 @@
 
-        <div class="card">
-            <div *ngFor="let stops of ($$favorites|async); let i=index;">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                     <button (click)="onRemove(i);" mat-icon-button>
-                       <mat-icon >delete</mat-icon>
-                    </button>
-                    <mat-slide-toggle [checked]="currentSelection[i]?.checked" (change)="onChange(i,stops)">
-                    </mat-slide-toggle>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                      Stop: {{stops.StopID}} - {{stops.Name}}
-                  </div>
-                  <div class="col-lg-5 col-md-5 col-sm-6 col-xs-5">
-                    <a *ngFor="let route of stops.Routes">{{route}} </a>
-                  </div>
-                </div>
+
+
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let stops of ($$favorites|async); let i=index;" (closed)="onClosed()" (opened)="onOpened(stops.StopID)">
+              <mat-expansion-panel-header >
+                <mat-panel-title>
+                  <button (click)="onRemove(i);" mat-icon-button>
+                    <mat-icon >delete</mat-icon>
+                 </button>
+
+                </mat-panel-title>
+                <mat-panel-description>
+                  Stop: {{stops.StopID}} - {{stops.Name}}
+                  Routes:<a *ngFor="let route of stops.Routes">{{route}}</a>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-slide-toggle [checked]="currentSelection[i]?.checked" (change)="onChange(i,stops)">
+                </mat-slide-toggle>
+              <div *ngIf="selectedStop!=null||selectedStop!=undefined||selectedStop">
+                <app-stop-table [selectedStop]="selectedStop"></app-stop-table>
               </div>
-            </div>
-          </div>
 
-
-
-
+              </mat-expansion-panel>
+              </mat-accordion>
+{{show}}

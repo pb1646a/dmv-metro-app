@@ -2,7 +2,8 @@ import {
   Routes,
   RouteDetails,
   RootPosObject,
-  Marker
+  Marker,
+  BusPredictions
 } from "./../metro-bus/models/routes.model";
 
 import { Injectable } from "@angular/core";
@@ -15,6 +16,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root"
 })
 export class BusesSearchService {
+  show= false;
   routes: Routes[] = [];
   apiUrl = environment.apiUrl;
   favorites = [];
@@ -76,7 +78,13 @@ export class BusesSearchService {
         `${this.apiUrl}/NextBusService.svc/json/jPredictions?StopID=${
           stop.StopID
         }`
-      );
+      ).pipe(map((res: BusPredictions )=>{
+        return {
+          StopName: res.StopName,
+          StopID: stop.StopID,
+          Predictions: res.Predictions
+        }
+      }))
     });
     return forkJoin(stopMap).subscribe(response => {
       this.stopETA = response;
@@ -102,7 +110,7 @@ export class BusesSearchService {
     });
     return forkJoin(posMap).subscribe(response => {
       response.map(res => {
-        console.log(res);
+
         this.busPositions.push(res);
       });
       //this.busPositions.push(response);

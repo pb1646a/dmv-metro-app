@@ -1,15 +1,18 @@
 <div class="card">
-    <div class="results-container">
-        <div *ngFor="let eta of ($$stopETA|async)">
-          {{eta.StopName}}
-          <ul *ngFor="let prediction of eta.Predictions">
-
-            <li>Route: {{prediction.RouteID}} -  {{prediction.DirectionText}}</li>
-            <li>{{prediction.Minutes}} mins</li>
-          </ul>
+  <div class="results-container">
+      <div *ngFor="let eta of ($$stopETA|async)">
+        <div *ngIf="eta.StopID===selectedStop">
+            {{eta.StopName}}
+              <ul *ngFor="let prediction of eta.Predictions">
+                <li>Route: {{prediction.RouteID}} -  {{prediction.DirectionText}}</li>
+                <li>{{prediction.Minutes}} mins</li>
+              </ul>
         </div>
-
+      </div>
+      <div *ngIf="($$busPositions|async).length>0" class="mapview col-lg-9 col-md-9 col-sm-9 col-xs-9">
+          <app-map-view ></app-map-view>
       </div>
 
-</div>
+    </div>
 
+</div>
