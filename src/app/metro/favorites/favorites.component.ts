@@ -3,23 +3,16 @@ import {
   Marker,
   CurrentSelection
 } from "./../metro-bus/metro-bus/models/routes.model";
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-
-} from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { BusesSearchService } from "../metro-bus/services/buses-search.service";
 import { of, Subscription, Observable } from "rxjs";
-
 
 @Component({
   selector: "app-favorites",
   templateUrl: "./favorites.component.html",
   styleUrls: ["./favorites.component.css"]
 })
-export class FavoritesComponent implements OnInit, OnDestroy{
-  show= false;
+export class FavoritesComponent implements OnInit, OnDestroy {
   selectedStop;
   favorites = [];
   $$favorites;
@@ -34,8 +27,7 @@ export class FavoritesComponent implements OnInit, OnDestroy{
 
   constructor(
     private _routes: BusesSearchService,
-    private _metro: MetroService,
-
+    private _metro: MetroService
   ) {}
 
   ngOnInit() {
@@ -110,7 +102,6 @@ export class FavoritesComponent implements OnInit, OnDestroy{
   }
   onClosed() {
     return this.unCheckAll();
-
   }
 
   ngOnDestroy() {
